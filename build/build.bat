@@ -20,7 +20,7 @@ if "%~1"=="" goto :end
     shift
 
 :build
-    call C:\Users\ben\Anaconda3\Scripts\activate.bat mitsuba_build
+    call %HOME%\Anaconda3\Scripts\activate.bat mitsuba_build
     cd ..
     if defined OptDebug (
         scons --parallelize --cfg=build\config-win64-msvc2017-debug.py
@@ -30,7 +30,7 @@ if "%~1"=="" goto :end
     goto :end
 
 :clean
-    call C:\Users\ben\Anaconda3\Scripts\activate.bat mitsuba_build
+    call %HOME%\Anaconda3\Scripts\activate.bat mitsuba_build
     cd ..
     if defined OptDebug (
         scons --parallelize --cfg=build\config-win64-msvc2017-debug.py -c
