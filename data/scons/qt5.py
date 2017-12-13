@@ -255,8 +255,8 @@ def generate(env):
                 QT5_MOC = locateQt5Command(env,'moc', env['QTDIR']),
                 QT5_UIC = locateQt5Command(env,'uic', env['QTDIR']),
                 QT5_RCC = locateQt5Command(env,'rcc', env['QTDIR']),
-                # QT5_LUPDATE = locateQt5Command(env,'lupdate', env['QTDIR']),
-                # QT5_LRELEASE = locateQt5Command(env,'lrelease', env['QTDIR']),
+                QT5_LUPDATE = locateQt5Command(env,'lupdate', env['QTDIR']),
+                QT5_LRELEASE = locateQt5Command(env,'lrelease', env['QTDIR']),
 
                 QT5_AUTOSCAN = 1, # Should the qt tool try to figure out, which sources are to be moc'ed?
 
