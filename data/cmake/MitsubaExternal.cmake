@@ -34,10 +34,10 @@ if((MSVC OR APPLE) AND NOT MTS_NO_DEPENDENCIES AND
     else()
       set(MTS_PLATFORM "i386_${MTS_MSVC_VERSION}")
     endif()
-    list(APPEND CMAKE_INCLUDE_PATH "${MTS_DEPS_DIR}/qt/include")
-    set(CMAKE_LIBRARY_PATH "${MTS_DEPS_DIR}/lib/${MTS_PLATFORM}/"
-      "${MTS_DEPS_DIR}/qt/${MTS_PLATFORM}/lib/")
-    set(QT_BINARY_DIR "${MTS_DEPS_DIR}/qt/${MTS_PLATFORM}/bin")
+    
+    set(CMAKE_LIBRARY_PATH "${MTS_DEPS_DIR}/lib/")
+    set(CMAKE_PREFIX_PATH "${MTS_DEPS_DIR}/Qt5.9.3-msvc2017_64/")
+
   elseif(APPLE)
     set(CMAKE_LIBRARY_PATH   "${MTS_DEPS_DIR}/lib")
     set(CMAKE_FRAMEWORK_PATH "${MTS_DEPS_DIR}/frameworks")
@@ -56,11 +56,11 @@ else()
 endif()
 
 
-# Qt4 (optional)
-find_package(Qt4 4.7 COMPONENTS
-  QtCore QtGui QtXml QtXmlPatterns QtNetwork QtOpenGL)
-CMAKE_DEPENDENT_OPTION(BUILD_GUI "Built the Qt4-based mitsuba GUI." ON
-  "QT4_FOUND" OFF)
+# Qt5 (optional)
+find_package(Qt5 COMPONENTS
+  Core Gui Xml XmlPatterns Network OpenGL)
+CMAKE_DEPENDENT_OPTION(BUILD_GUI "Built the Qt5-based mitsuba GUI." ON
+  "Qt5_FOUND" OFF)
   
 # System threading library, used for custom options
 set(CMAKE_THREAD_PREFER_PTHREAD ON)

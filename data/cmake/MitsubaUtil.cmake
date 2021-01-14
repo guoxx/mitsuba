@@ -430,7 +430,7 @@ macro (add_mts_exe _exe_name)
       endif ()
     endif ()
     pch_add_executable (${_exe_name} ${_exe_TYPE}
-      PCH_HEADER "${_exe_pch_header}" ${_exe_srcs})
+    PCH_HEADER "${_exe_pch_header}" ${_exe_srcs})
   else ()
     add_executable (${_exe_name} ${_exe_TYPE} ${_exe_srcs})
   endif ()

@@ -1,6 +1,6 @@
 # Experimental CMake file for Mitusba
 # Tested only on Windows and Linux (Ubuntu 10.10)
-cmake_minimum_required(VERSION 2.8.3 FATAL_ERROR)
+cmake_minimum_required(VERSION 3.9 FATAL_ERROR)
 
 # Internal variable to know whether this is the first time CMake runs
 if (NOT DEFINED MTS_CMAKE_INIT)
@@ -142,8 +142,8 @@ endif()
 # Build the Qt-based GUI binaries
 if (BUILD_GUI)
   add_subdirectory(src/mtsgui)
-elseif(NOT QT4_FOUND)
-  message(STATUS "Qt4 was not found. The mitsuba gui will not be built.")
+elseif(NOT Qt5_FOUND)
+  message(STATUS "Qt5 was not found. The mitsuba gui will not be built.")
 endif()
 
 

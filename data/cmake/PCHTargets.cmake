@@ -339,7 +339,7 @@ macro (PVT_PCH_USE pch_header_filename pch_filename target_name srcs_var
   endforeach ()
   
   if (PCH_MSVC)
-    set (pch_flags " /Yu\"${pch_header}\" /FI\"${pch_header}\"")
+    set (pch_flags " /Yu\"${pch_header}\" /FI\"${pch_header}\" ")
   elseif (PCH_GCC OR PCH_CLANG)
     # FIXME: this is coupled with the internal behavior of PVT_ADD_PCH_RULE
     set(pch_subdir "${pch_optional_subdir}")
