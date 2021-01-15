@@ -96,4 +96,6 @@ add_mts_corelib(mitsuba-render ${HDRS} ${SRCS} LINK_LIBRARIES
 # Make sure the schema is where expected by the scene handler
 add_dependencies(mitsuba-render scene_schema)
 
+mts_install_named_dep_lib(mitsuba-render "${MTS_DEPS_DIR}/lib/xerces-c_3_1.dll" "${MTS_DEPS_DIR}/lib/zlib1.dll")
+
 mts_install_headers (${HDRS} FOLDER "mitsuba/render")

@@ -178,6 +178,51 @@ else()
 endif()
 
 
+macro (mts_install_dep_libs _dep_lib_target)
+  if (EXISTS ${MTS_DEPS_DIR})
+    CMAKE_PARSE_ARGUMENTS(_dep_lib "" "" "" ${ARGN})
+    set (_dep_lib_files ${_dep_lib_UNPARSED_ARGUMENTS})
+
+    set(dlls_to_copy "")
+    foreach (lib_path ${_dep_lib_files})
+      string(FIND "${lib_path}" "${MTS_DEPS_DIR}" out)
+      if ("${out}" EQUAL 0)
+        string(REPLACE ".lib" ".dll" dll_path ${lib_path})
+        if (EXISTS ${dll_path})
+          list(APPEND dlls_to_copy ${dll_path})
+        endif ()
+      endif ()
+    endforeach ()
+
+    if (dlls_to_copy)
+      add_custom_command(TARGET ${_dep_lib_target} POST_BUILD
+        COMMAND ${CMAKE_COMMAND} -E copy_if_different ${dlls_to_copy} "$<TARGET_FILE_DIR:${_dep_lib_target}>"
+        COMMENT "Copy dependencies dlls"
+      )
+    endif ()
+
+  endif ()
+endmacro ()
+
+
+macro (mts_install_named_dep_lib _dep_lib_target)
+  if (EXISTS ${MTS_DEPS_DIR})
+    CMAKE_PARSE_ARGUMENTS(_dep_lib "" "FOLDER" "" ${ARGN})
+    set (_dep_lib_files ${_dep_lib_UNPARSED_ARGUMENTS})
+
+    if (NOT _dep_lib_FOLDER)
+      set (_dep_lib_FOLDER ".")
+    endif ()
+
+    add_custom_command(TARGET ${_dep_lib_target} POST_BUILD
+      COMMAND ${CMAKE_COMMAND} -E make_directory "$<TARGET_FILE_DIR:${_dep_lib_target}>/${_dep_lib_FOLDER}"
+      COMMAND ${CMAKE_COMMAND} -E copy_if_different ${_dep_lib_files} "$<TARGET_FILE_DIR:${_dep_lib_target}>/${_dep_lib_FOLDER}"
+      COMMENT "Copy dependencies dlls"
+    )
+
+  endif ()
+endmacro ()
+
 # Constant with the destination for the core libraries
 if (WIN32 OR MTS_SIMPLE_PATHS)
   set(MTS_LIB_DEST ".")
@@ -221,6 +266,7 @@ macro (add_mts_corelib _corelib_name)
     add_library (${_corelib_name} SHARED ${_corelib_srcs})
   endif ()
   target_link_libraries (${_corelib_name} ${_corelib_LINK_LIBRARIES})
+  mts_install_dep_libs (${_corelib_name} ${_corelib_LINK_LIBRARIES})
   if (WIN32)
     set_target_properties (${_corelib_name} PROPERTIES 
       PREFIX "lib"
@@ -443,6 +489,7 @@ macro (add_mts_exe _exe_name)
     list(APPEND _exe_core_libraries "mitsuba-bidir")
   endif()
   target_link_libraries (${_exe_name} ${_exe_core_libraries} ${_exe_LINK_LIBRARIES})
+  mts_install_dep_libs (${_exe_name} ${_exe_LINK_LIBRARIES})
   if (WIN32)
     set_target_properties (${_exe_name} PROPERTIES VERSION "${MTS_VERSION}")
   endif()

@@ -169,9 +169,23 @@ add_mts_exe(mtsgui ${MTS_EXE_TYPE} ${SRCS} ${HDRS}
   RES_ICON "${PROJECT_SOURCE_DIR}/data/windows/mitsuba.ico"
   RES_DESCRIPTION "Mitsuba interactive Qt-based frontend"
   MTS_HW LINK_LIBRARIES ${LIBS})
-  
-qt5_use_modules (mtsgui Core Gui Xml XmlPatterns Network OpenGL)
- 
+
+qt5_use_modules (mtsgui Core Gui Widgets Xml XmlPatterns Network OpenGL)
+
+mts_install_named_dep_lib(mtsgui  
+        "$<TARGET_FILE:${Qt5Core_LIBRARIES}>"  
+        "$<TARGET_FILE:${Qt5Gui_LIBRARIES}>"  
+        "$<TARGET_FILE:${Qt5Widgets_LIBRARIES}>"  
+        "$<TARGET_FILE:${Qt5Xml_LIBRARIES}>"  
+        "$<TARGET_FILE:${Qt5XmlPatterns_LIBRARIES}>"  
+        "$<TARGET_FILE:${Qt5Network_LIBRARIES}>"  
+        "$<TARGET_FILE:${Qt5OpenGL_LIBRARIES}>")
+
+mts_install_named_dep_lib(mtsgui
+        "$<TARGET_FILE:Qt5::QWindowsIntegrationPlugin>"  
+        FOLDER "platforms")
+
+
 # Custom targets to copy the bundle files and the PreviewSettings objects
 # into the build directory. Also adds the special symlinks_install tool
 if (APPLE)
