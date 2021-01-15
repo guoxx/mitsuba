@@ -16,6 +16,7 @@ add_bsdf(roughdiffuse    roughdiffuse.cpp)
 add_bsdf(roughdielectric roughdielectric.cpp microfacet.h ior.h)
 add_bsdf(roughconductor  roughconductor.cpp microfacet.h)
 add_bsdf(roughplastic    roughplastic.cpp microfacet.h ior.h)
+add_bsdf(disney    		 disney.cpp microfacet.h)
 
 # Materials that act as modifiers
 add_bsdf(bumpmap      bumpmap.cpp)
